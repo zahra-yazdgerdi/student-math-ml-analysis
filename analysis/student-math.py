@@ -5,13 +5,13 @@ import seaborn as sns
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 df=pd.read_csv("D:/ML/mine/2/student-mat.csv") 
-#print(df.describe())
-#print(df.info())
-#print(df.head())
+print(df.describe())
+print(df.info())
+print(df.head())
 
 #####clearing data 
-#print(df.isna().sum())
-#print(df.isnull().any(axis=1))
+print(df.isna().sum())
+print(df.isnull().any(axis=1))
 ###in a case that any data is not a number and its like a sign (!, -- , ?, missing) you can use this code
 #df['']=pd.to_numeric(df[''],errors='coerce)
 
@@ -29,13 +29,13 @@ corr = numeric_df.corr()
 plt.figure(figsize=(12,8))
 sns.heatmap(corr, annot=True, cmap="Reds")
 plt.title('Correlation Heatmap', fontsize=20)
-#plt.show()
+plt.show()
 
 #####Encoding (you can use lablencoder as well, but its more accurate and for the decision tree and others, its better)
 df_encode=pd.get_dummies(df, drop_first=True)
 print(df_encode.head(5))
-#print(df_encode.dtypes)
-#df_encode is not included final grade yet !
+print(df_encode.dtypes)
+#!df_encode is not included final grade yet !
 
 ##### convert final_score to categorical variable # Good:15~20 Fair:10~14 Poor:0~9 and name it by final_grade
 df['final_grade'] = 'na'
@@ -48,7 +48,7 @@ df.loc[(df.final_score >= 0) & (df.final_score <= 9), 'final_grade'] = 'poor'
 la=LabelEncoder()
 df.final_grade=la.fit_transform(df.final_grade)
 
-#print(df_encode.dtypes)
+print(df_encode.dtypes)
 
 #####Modeling 
 x=df_encode.copy()        # .copy is to avoid changing on main df_encode
@@ -88,7 +88,7 @@ ac_tree_2=accuracy_score(y_tree_predict,y_test)
 cm=confusion_matrix(y_tree_predict,y_test)
 cm_display=ConfusionMatrixDisplay(confusion_matrix=cm,display_labels=['class=0','class=1','class=2'])
 cm_display.plot(cmap=plt.cm.Reds)
-#plt.show()
+plt.show()
 
 report=classification_report(y_test, y_tree_predict)
 print(report)
@@ -113,7 +113,7 @@ print("report random:",report)
 cm_random=confusion_matrix(y_random_predict,y_test)
 cm_display=ConfusionMatrixDisplay(confusion_matrix=cm_random,display_labels=['class=0','class=1','class=2'])
 cm_display.plot(cmap=plt.cm.Blues)
-#plt.show()
+plt.show()
 
 feature_importance=Random.feature_importances_
 features=features = x.columns.tolist()
@@ -124,7 +124,7 @@ plt.figure(figsize=(10,6))
 plt.barh(features,feature_importance,color='blue')
 plt.xlabel('feature importance')
 plt.ylabel('feature')
-#plt.show()
+plt.show()
 
 #######################################################################################################
 
@@ -144,11 +144,11 @@ cm=confusion_matrix(y_test,y_svc_predict)
 print(cm)
 df_cm = pd.DataFrame(cm, range(3),
                   range(3))
-#plt.figure(figsize = (10,7))
+plt.figure(figsize = (10,7))
 sns.set(font_scale=1.4)#for label size
 sns.heatmap(df_cm, annot=True,annot_kws={"size": 16})
 #plt.show()
 
 report_svc = classification_report(y_test, y_svc_predict)
 print("report svc:",report)
-#######################################################################################################
+#################################################################
